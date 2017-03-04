@@ -1,0 +1,21 @@
+{
+    "extends": ["xo", "xo-react"],
+    "rules": {
+        "arrow-parens": ["error", "always"],
+        "comma-dangle": ["error", "always-multiline"],
+        "func-names": ["error", "as-needed"],
+        "indent": ["error", 2],
+        "no-unused-vars": 1,
+        "no-use-before-define": 0,
+        "object-curly-spacing": ["error", "always"],
+        "quote-props": ["error", "as-needed"],
+        "semi": ["error", "never"],
+        "space-before-function-paren": ["error", "always"],
+
+        "react/jsx-indent": ["error", 2],
+        "react/jsx-no-bind": ["error", { "allowArrowFunctions": true }],
+        "react/prop-types": 0,
+        "react/react-in-jsx-scope": 0,
+        "react/self-closing-comp": ["error", { "html": false }],
+    },
+}
