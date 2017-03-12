@@ -1,6 +1,7 @@
 import { css } from 'glamor'
 import Head from 'next/head'
 import Hamburger from './hamburger'
+import Sidebar from './sidebar'
 
 /**
  * 全ページ共通のレイアウト
@@ -27,6 +28,7 @@ export default (props) => (
         { props.children }
       </div>
       <Hamburger/>
+      <Sidebar/>
     </div>
   </div>
 )
