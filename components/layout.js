@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import css from 'next/css'
 import Hamburger from './hamburger'
+import Sidebar from './sidebar'
 
 export default (props) => (
   <div>
@@ -20,6 +21,7 @@ export default (props) => (
         { props.children }
       </div>
       <Hamburger/>
+      <Sidebar/>
     </div>
   </div>
 )
