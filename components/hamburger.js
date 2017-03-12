@@ -3,23 +3,10 @@ import React from 'react'
 
 export default class hamburger extends React.Component {
 
-  constructor () {
-    super()
-    this.state = {
-      isActive: false
-    }
-  }
-
-  toggle () {
-    this.setState({
-      isActive: !this.state.isActive,
-    })
-  }
-
   render () {
     return (
-      <div className={hamburgerStyle} onClick={() => this.toggle()}>
-        <div className={getClassName(this.state.isActive)}>
+      <div className={hamburgerStyle} onClick={this.props.onClick}>
+        <div className={getClassName(this.props.isActive)}>
           <div className="hamburger-box">
             <div className="hamburger-inner"></div>
           </div>
