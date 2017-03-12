@@ -1,5 +1,6 @@
 import { css } from 'glamor'
 import Head from 'next/head'
+import Hamburger from './hamburger'
 
 /**
  * 全ページ共通のレイアウト
@@ -15,6 +16,7 @@ export default (props) => (
       <style jsx global>{`
         body { margin: 0; }
       `}</style>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.7.0/hamburgers.min.css" rel="stylesheet"/>
     </Head>
 
     <div className={wrapperStyle}>
@@ -24,6 +26,7 @@ export default (props) => (
       <div className={contentStyle}>
         { props.children }
       </div>
+      <Hamburger/>
     </div>
   </div>
 )
