@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import css from 'next/css'
+import Hamburger from './hamburger'
 
 export default (props) => (
   <div>
@@ -8,6 +9,7 @@ export default (props) => (
       <style>{`
         body { margin: 0; }
       `}</style>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.7.0/hamburgers.min.css" rel="stylesheet"/>
     </Head>
 
     <div className={wrapperStyle}>
@@ -17,6 +19,7 @@ export default (props) => (
       <div className={contentStyle}>
         { props.children }
       </div>
+      <Hamburger/>
     </div>
   </div>
 )
