@@ -23,6 +23,7 @@ export default class Layout extends React.Component {
       <div>
         <Head>
           <title>{ this.props.title || '⚡ハロー、React⚡' }</title>
+          <meta name='viewport' content='initial-scale=1.0, width=device-width' />
           <style>{`
             body { margin: 0; }
           `}</style>
@@ -31,7 +32,7 @@ export default class Layout extends React.Component {
 
         <div className={wrapperStyle}>
           <header className={headerStyle}>
-            ⚡ハロー、React⚡
+            <h1>⚡ハロー、React⚡</h1>
           </header>
           <div className={contentStyle}>
             { this.props.children }
@@ -46,18 +47,17 @@ export default class Layout extends React.Component {
 }
 
 const wrapperStyle = css({
-  width: 960,
+  maxWidth: 960,
   margin: '0 auto',
   textAlign: 'center',
 })
 
 const headerStyle = css({
-  margin: '40px 0',
-  fontSize: '2.5em',
-  fontWeight: 'bold',
+  margin: '60px 0 40px',
   fontStyle: 'italic',
 })
 
 const contentStyle = css({
   color: 'dimgray',
+  margin: 10,
 })

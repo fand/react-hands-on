@@ -29,8 +29,8 @@ const getClassName = (isActive) => {
 
 const hamburgerStyle = css({
   position: 'fixed',
-  top: 16,
-  left: 16,
+  top: 8,
+  left: 8,
   width: 64,
   height: 64,
   zIndex: 9999,
