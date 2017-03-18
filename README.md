@@ -70,8 +70,6 @@ $ npm run dev
 (`<p>` の中身は適当でいいです)
 
 ```js
-import Layout from '../components/layout'
-
 /**
  * Aboutページに対応するReactコンポーネント
  */
