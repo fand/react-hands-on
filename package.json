@@ -11,7 +11,9 @@
   "author": "fand <fand@gmork.in>",
   "license": "MIT",
   "dependencies": {
-    "next": "^1.2.3"
+    "next": "4.2.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
