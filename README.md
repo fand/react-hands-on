@@ -178,12 +178,11 @@ export default () => (
 ## Step 4: CSSを導入する
 
 `components/layout.js` を編集します。  
-ここでは、 Next.js の提供する css 関数を利用し、JSファイル中にスタイルを記述します。  
+ここでは、 Next.js の提供するstyled-jsxを利用し、JSファイル中にスタイルを記述します。  
 このような開発手法は `CSS in JS` と呼ばれています。<sup>[3](#css-in-js)</sup>
 
 ```diff
 import Head from 'next/head'
-+import css from 'next/css'
 
 /**
  * 全ページ共通のレイアウト
@@ -203,33 +202,33 @@ export default (props) => (
 
 -    <div>
 -      <header>
-+    <div className={wrapperStyle}>
-+      <header className={headerStyle}>
++    <div className='wrapper'>
++      <header className='header'>
         <h1>⚡ハロー、React⚡</h1>
       </header>
 -      <div>
-+      <div className={contentStyle}>
++      <div className='content'>
         { props.children }
       </div>
     </div>
++   <style jsx>{`
++     .wrapper {
++        max-width: 960;
++        margin: 0 auto;
++        text-align: center;
++      }
++      .header {
++        margin: 60px 0 40px;
++        font-style: italic;
++      }
++      .content {
++        color: dimgray;
++        margin: 10;
++      }
++    `}</style>
+
   </div>
 )
-+
-+const wrapperStyle = css({
-+  maxWidth: 960,
-+  margin: '0 auto',
-+  textAlign: 'center',
-+})
-+
-+const headerStyle = css({
-+  margin: '60px 0 40px',
-+  fontStyle: 'italic',
-+})
-+
-+const contentStyle = css({
-+  color: 'dimgray',
-+  margin: 10,
-+})
 ```
 
 無事、本文のレイアウトや文字色が変更されました。  
@@ -243,34 +242,32 @@ viewportも指定してあるので、モバイル環境でもうまく表示さ
 
 まず、 `components/hamburger.js` を作成し、以下の内容を追加します。
 
-```diff
-+import css from 'next/css'
-+
-+/**
-+ * ハンバーガーボタンに対応するReactコンポーネント
-+ */
-+export default (props) => (
-+  <div className={hamburgerStyle}>
-+    <div className="hamburger hamburger--squeeze">
-+      <div className="hamburger-box">
-+        <div className="hamburger-inner"></div>
-+      </div>
-+    </div>
-+  </div>
-+)
-+
-+const hamburgerStyle = css({
-+  position: 'fixed',
-+  top: 8,
-+  left: 8,
-+  width: 64,
-+  height: 64,
-+  zIndex: 9999,
-+
-+  ':hover': {
-+    opacity: 0.6,
-+  },
-+})
+```jsx
+/**
+ * ハンバーガーボタンに対応するReactコンポーネント
+ */
+export default (props) => (
+  <div className='wrapper'>
+    <div className="hamburger hamburger--squeeze">
+      <div className="hamburger-box">
+        <div className="hamburger-inner"></div>
+      </div>
+    </div>
+    <style jsx>{`
+      .wrapper {
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        width: 64px;
+        height: 64px;
+        z-index: 9999;
+      }
+      .wrapper:hover {
+        opacity: 0.6;
+      }
+    `}</style>
+  </div>
+)
 ```
 
 次に、 `components/layout.js` を編集します。
@@ -280,7 +277,6 @@ viewportも指定してあるので、モバイル環境でもうまく表示さ
 
 ```diff
 import Head from 'next/head'
-import css from 'next/css'
 +import Hamburger from './hamburger'
 
 /**
@@ -300,13 +296,28 @@ export default (props) => (
 +      <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.7.0/hamburgers.min.css" rel="stylesheet"/>
     </Head>
 
-    <div className={wrapperStyle}>
-     <header className={headerStyle}>
+    <div className='wrapper'>
+     <header className='header'>
        <h1>⚡ハロー、React⚡</h1>
      </header>
-      <div className={contentStyle}>
+      <div className='content'>
         { props.children }
       </div>
+      <style jsx>{`
+        .wrapper {
+          max-width: 960;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .header {
+          margin: 60px 0 40px;
+          font-style: italic;
+        }
+        .content {
+          color: dimgray;
+          margin: 10;
+        }
+      `}</style>
 +      <Hamburger/>
     </div>
   </div>
@@ -334,21 +345,34 @@ Reactコンポーネントの作り方は2種類存在します。
 `components/hamburger.js` を次の内容で編集してください。
 
 ```diff
-import css from 'next/css'
 +import React from 'react'
 
-/**
- * ハンバーガーボタンに対応するReactコンポーネント
- */
+ -/**
+- * ハンバーガーボタンに対応するReactコンポーネント
+- */
 -export default (props) => (
--  <div className={hamburgerStyle}>
+-  <div className='wrapper'>
 -    <div className="hamburger hamburger--squeeze">
 -      <div className="hamburger-box">
 -        <div className="hamburger-inner"></div>
 -      </div>
 -    </div>
+-    <style jsx>{`
+-      .wrapper {
+-        position: fixed;
+-        top: 8px;
+-        left: 8px;
+-        width: 64px;
+-        height: 64px;
+-        z-index: 9999;
+-      }
+-      .wrapper:hover {
+-        opacity: 0.6;
+-      }
+-    `}</style>
 -  </div>
 -)
+
 +export default class Hamburger extends React.Component {
 +
 +  constructor () {
@@ -371,13 +395,26 @@ import css from 'next/css'
 +
 +  render () {
 +    return (
-+      <div className={hamburgerStyle} onClick={() => this.toggle()}>
++      <div className='wrapper' onClick={() => this.toggle()}>
 +        <div className={getClassName(this.state.isActive)}>
 +          <div className="hamburger-box">
 +            <div className="hamburger-inner"></div>
 +          </div>
 +        </div>
-+      </div>
++        <style jsx>{`
++          .wrapper {
++            position: fixed;
++            top: 8px;
++            left: 8px;
++            width: 64px;
++            height: 64px;
++            z-index: 9999;
++          }
++          .wrapper:hover {
++            opacity: 0.6;
++          }
++        `}</style>
++       </div>
 +    )
 +  }
 +
@@ -393,18 +430,6 @@ import css from 'next/css'
 +  )
 +}
 
-const hamburgerStyle = css({
-  position: 'fixed',
-  top: 8,
-  left: 8,
-  width: 64,
-  height: 64,
-  zIndex: 9999,
-
-  ':hover': {
-    opacity: 0.6,
-  },
-})
 ```
 
 Reactコンポーネントをクラスで作る場合、 `this.state` に状態を保存できます。  
@@ -433,45 +458,45 @@ Reactコンポーネントをクラスで作る場合、 `this.state` に状態�
 `components/sidebar.js` を作成し、以下の内容を追加しましょう。
 
 ```js
-import css from 'next/css'
 import Link from 'next/link'
 
 /**
  * サイドバーに対応するReactコンポーネント
  */
 export default (props) => (
-  <nav className={sidebarStyle}>
+  <nav className='sidebar'>
     <h1>Menu</h1>
-    <ul className={listStyle}>
+    <ul className='list'>
       <li><Link href="/"><a>Top</a></Link></li>
       <li><Link href="/about"><a>About</a></Link></li>
     </ul>
+    <style jsx>{`
+    .sidebar {
+      text-align: center;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 320px;
+      height: 100%;
+      line-height: 42px;
+      background: silver;
+      box-shadow: 0 0 20px black;
+    }
+    .list {
+      list-style: none;
+      padding: 0;
+      font-weight: bold;
+    }
+    `}</style>
   </nav>
 )
 
-const sidebarStyle = css({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: 320,
-  height: '100%',
-  lineHeight: '42px',
-  background: 'silver',
-  boxShadow: '0 0 20px black',
-})
-
-const listStyle = css({
-  listStyle: 'none',
-  padding: 0,
-  fontWeight: 'bold',
-})
 ```
 
 次に `components/layout.js` を編集します。
 
 ```diff
 import Head from 'next/head'
-import css from 'next/css'
 import Hamburger from './hamburger'
 +import Sidebar from './sidebar'
 
@@ -492,13 +517,28 @@ export default (props) => (
       <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.7.0/hamburgers.min.css" rel="stylesheet"/>
     </Head>
 
-    <div className={wrapperStyle}>
-      <header className={headerStyle}>
+    <div className='wrapper'>
+      <header className='header'>
         <h1>⚡ハロー、React⚡</h1>
       </header>
-      <div className={contentStyle}>
+      <div className='content'>
         { props.children }
       </div>
+      <style jsx>{`
+        .wrapper {
+          max-width: 960;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .header {
+          margin: 60px 0 40px;
+          font-style: italic;
+        }
+        .content {
+          color: dimgray;
+          margin: 10;
+        }
+      `}</style>
       <Hamburger/>
 +      <Sidebar/>
     </div>
@@ -521,7 +561,6 @@ Layoutを関数ではなくクラスにし、HamburgerにあったコードをLa
 ```diff
 +import React from 'react'
 import Head from 'next/head'
-import css from 'next/css'
 import Hamburger from './hamburger'
 import Sidebar from './sidebar'
 
@@ -542,24 +581,38 @@ import Sidebar from './sidebar'
 -      <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.7.0/hamburgers.min.css" rel="stylesheet"/>
 -    </Head>
 -
--    <div className={wrapperStyle}>
--      <header className={headerStyle}>
+-    <div className='wrapper'>
+-      <header className='header'>
 -        <h1>⚡ハロー、React⚡</h1>
 -      </header>
--      <div className={contentStyle}>
+-      <div className='content'>
 -        { props.children }
 -      </div>
--      <Hamburger/>
--      <Sidebar/>
+-      <style jsx>{`
+-        .wrapper {
+-          max-width: 960;
+-          margin: 0 auto;
+-          text-align: center;
+-        }
+-        .header {
+-          margin: 60px 0 40px;
+-          font-style: italic;
+-        }
+-        .content {
+-          color: dimgray;
+-          margin: 10;
+-        }
+-      `}</style>
 -    </div>
+-    <Hamburger/>
+-    <Sidebar/>
 -  </div>
 -)
+
 +export default class Layout extends React.Component {
-+
-+  constructor () {
++  constructor() {
 +    super()
 +
-+    // アクティブかどうかをisSidebarActiveで管理する
 +    this.state = {
 +      isSidebarActive: false,
 +    }
@@ -583,21 +636,35 @@ import Sidebar from './sidebar'
 +          <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.7.0/hamburgers.min.css" rel="stylesheet"/>
 +        </Head>
 +
-+        <div className={wrapperStyle}>
-+          <header className={headerStyle}>
++        <div className='wrapper'>
++          <header className='header'>
 +            <h1>⚡ハロー、React⚡</h1>
 +          </header>
-+          <div className={contentStyle}>
++          <div className='content'>
 +            { this.props.children }
 +          </div>
-+          <Hamburger isActive={this.state.isSidebarActive} onClick={() => this.toggle()}/>
-+          <Sidebar isActive={this.state.isSidebarActive}/>
++          <style jsx>{`
++            .wrapper {
++              max-width: 960;
++              margin: 0 auto;
++              text-align: center;
++            }
++            .header {
++              margin: 60px 0 40px;
++              font-style: italic;
++            }
++            .content {
++              color: dimgray;
++              margin: 10;
++            }
++          `}</style>
 +        </div>
++        <Hamburger isActive={this.state.isSidebarActive} onClick={() => this.toggle()}/>
++        <Sidebar isActive={this.state.isSidebarActive}/>
 +      </div>
 +    )
 +  }
-+
-+}  
++}
 ```
 
 次に、 Hamburgerから状態を管理するコードを削除します。  
@@ -626,14 +693,28 @@ export default class Hamburger extends React.Component {
 -
   render () {
     return (
--      <div className={hamburgerStyle} onClick={() => this.toggle()}>
-+      <div className={hamburgerStyle} onClick={this.props.onClick}>
+-      <div className='wrapper' onClick={() => this.toggle()}>
++      <div className='wrapper' onClick={this.props.onClick}>
 -        <div className={getClassName(this.state.isActive)}>
 +        <div className={getClassName(this.props.isActive)}>
           <div className="hamburger-box">
             <div className="hamburger-inner"></div>
           </div>
         </div>
+        <style jsx>{`
+          .wrapper {
+            position: fixed;
+            top: 8px;
+            left: 8px;
+            width: 64px;
+            height: 64px;
+            z-index: 9999;
+          }
+          .wrapper:hover {
+            opacity: 0.6;
+          }
+        `}</style>
+      </div>
       </div>
     )
   }
@@ -646,13 +727,31 @@ SidebarはLayoutから `this.props.isActive` を受け取り、表示位置を�
 
 ```diff
 export default (props) => (
--  <nav className={sidebarStyle}>
-+  <nav className={sidebarStyle} style={{ left: getLeft(props.isActive) }}>
+-  <nav className='sidebar'>
++  <nav className='sidebar' style={{ left: getLeft(props.isActive) }}>
     <h1>Menu</h1>
-    <ul className={listStyle}>
+    <ul className='list'>
       <li><Link href="/"><a>Top</a></Link></li>
      <li><Link href="/about"><a>About</a></Link></li>
    </ul>
+   <style jsx>{`
+    .sidebar {
+      text-align: center;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 320px;
+      height: 100%;
+      line-height: 42px;
+      background: silver;
+      box-shadow: 0 0 20px black;
+    }
+    .list {
+      list-style: none;
+      padding: 0;
+      font-weight: bold;
+    }
+    `}</style>
   </nav>
 )
 
